@@ -12,14 +12,35 @@ const doctorSchema = new mongoose.Schema(
     about: { type: String, required: true },
     available: { type: Boolean, default: true },
     fees: { type: Number, required: true },
-    address: { type: Object, required: true },
     date: { type: Number, required: true },
     slots_booked: { type: Object, default: {} },
-  },
-  { minimize: false }
+
+    // Only Current Location (Latitude & Longitude)
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+        required: true,
+        validate: {
+          validator: function (coords) {
+            return coords.length === 2 &&
+                   coords[0] >= -180 && coords[0] <= 180 && // Longitude range
+                   coords[1] >= -90 && coords[1] <= 90;    // Latitude range
+          },
+          message: "Coordinates must be in [longitude, latitude] format."
+        }
+      }
+    }
+  }
 );
 
-const doctorModel =
-  mongoose.models.doctor || mongoose.model("doctor", doctorSchema);
+// Create geospatial index for location-based queries
+doctorSchema.index({ location: "2dsphere" });
+
+const doctorModel = mongoose.models.doctor || mongoose.model("doctor", doctorSchema);
 
 export default doctorModel;

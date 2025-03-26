@@ -5,6 +5,7 @@ import TopDoctors from "../components/TopDoctors";
 import Banner from "../components/Banner";
 import PrescriptionRedirect from "../components/MedicinePredictor";
 import PrescriptionDigitalize from "../components/PrescriptionDigitalize";
+import HoverImage from "../components/HoverImage";
 const Home = () => {
   return (
     <div>
@@ -13,6 +14,7 @@ const Home = () => {
       <PrescriptionRedirect />
       <br></br>
       <PrescriptionDigitalize />
+      <HoverImage />
       <TopDoctors />
       <Banner />
     </div>
