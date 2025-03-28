@@ -6,25 +6,26 @@ import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./routes/adminRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
 import userRouter from "./routes/userRoute.js";
+import verificationRouter from "./routes/verificationRoute.js"; // New import
 
-// app config
+// App config
 const app = express();
 const port = process.env.PORT || 4000;
 connectDB();
 connectCloudinary();
 
-//middlewares
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// api endpoints
-
+// API endpoints
 app.use("/api/admin", adminRouter);
 app.use("/api/doctor", doctorRouter);
 app.use("/api/user", userRouter);
+app.use("/api/verification", verificationRouter); // New API route
 
 app.get("/", (req, res) => {
-  res.send("API WORKING ");
+  res.send("API WORKING");
 });
 
 app.listen(port, () => console.log("Server Started", port));
